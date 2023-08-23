@@ -1,2 +1,2 @@
 # Node-js
-Learn node js
+My app on Node.js
