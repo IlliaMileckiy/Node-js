@@ -1,2 +1,2 @@
 # Node-js
-My apps on Node.js
+My app on Node.js
