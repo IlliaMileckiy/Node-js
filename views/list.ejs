@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>List Page</title>
+    <style>
+    body {
+        font-family: Arial, sans-serif;
+        background-color: #E5F1F7;
+        margin: 0;
+        padding: 0;
+    }
+    
+    #header {
+        background-color: #00A8C6;
+        padding: 10px;
+        display: flex;
+        justify-content: space-around;
+        align-items: center;
+    }
+    
+    #header a {
+        text-decoration: none;
+    }
+    
+    #header button {
+        background-color: #00A8C6;
+        border: none;
+        color: white;
+        padding: 8px 16px;
+        font-size: 16px;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+    }
+    
+    #header button:hover {
+        background-color: #007D94;
+    }
+    
+    #block {
+        display: flex;
+        flex-direction: column;
+        justify-content: start;
+        align-items: center;
+        background-color: white;
+        margin: 20px;
+        padding: 20px;
+        border-radius: 8px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+    
+    #block h2 {
+        color: #333333;
+        font-size: 24px;
+        margin-bottom: 10px;
+    }
+    
+    #menu {
+        display: flex;
+        flex-direction: column;
+        align-items: start;
+        width: 100%;
+    }
+    
+    #menu button {
+        background-color: #00A8C6;
+        border: none;
+        color: white;
+        padding: 8px 16px;
+        font-size: 16px;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+    }
+    
+    #menu button:hover {
+        background-color: #007D94;
+    }
+    
+    #tasks {
+        display: block;
+        width: 100%;
+        height: 100%;
+        margin-top: 20px;
+        border-top: 1px solid #DDDDDD;
+        padding-top: 20px;
+    }
+    
+    .task {
+        border: 1px solid #DDDDDD;
+        padding: 10px;
+        margin-bottom: 10px;
+        border-radius: 8px;
+        background-color: white;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+    
+    #block_text {
+        flex: 1;
+    }
+    
+    .task h2 {
+        font-size: 20px;
+        color: #333333;
+    }
+    
+    .task p {
+        font-size: 16px;
+        color: #666666;
+        margin-top: 5px;
+    }
+    
+    #block_btn {
+        margin-left: 10px;
+        text-align: right;
+    }
+    
+    .delete_btn {
+        background-color: #FF6B6B;
+        border: none;
+        color: white;
+        padding: 6px 12px;
+        font-size: 14px;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+        margin-right: 10px;
+    }
+    
+    .delete_btn:hover {
+        background-color: #D9534F;
+    }
+    
+    .redact_btn button {
+        background-color: #5BC0DE;
+        border: none;
+        color: white;
+        padding: 6px 12px;
+        font-size: 14px;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+    }
+    
+    .redact_btn button:hover {
+        background-color: #46B8DA;
+    }
+</style>
+</head>
+<body>
+    <%- include('./views-helpers/header.ejs') %>
+    <div id="block">
+        <div id="menu">
+            <h2>List</h2>
+            <a href="/add-task"><button>add-task</button></a>
+        </div>
+        <div id="tasks">
+            <% tasks.forEach(task => { %>
+            <div class="task">
+                <div id="block_text">
+                    <h2><%= task.title %></h2>
+                    <p><%= task.text %></p>
+                </div>
+                <div id="block_btn">
+                    <button class="delete_btn" type="submit" data-id="<%= task._id %>">Delete</button>
+                    <a class="redact_btn" href="/edit/<%= task._id %>"><button> Edit </button></a>
+                </div>
+            </div>
+            <% }) %>
+        </div>
+    </div>
+    <script>
+        const tasks = document.getElementById('tasks');
+        const tasksTask = tasks.querySelectorAll(':scope > *');
+        if(tasksTask.length < 1) {
+            tasks.style = "border: none;";
+        }
+
+        document.addEventListener("DOMContentLoaded", () => {
+            const deleteButtons = document.querySelectorAll('.delete_btn');
+
+            deleteButtons.forEach(button => {
+                button.addEventListener('click', async () => {
+                    const taskId = button.getAttribute('data-id');
+                    console.log(taskId)
+                    try {
+                        const response = await fetch(`/list/${taskId}`, {
+                            method: 'DELETE',
+                        });
+
+                        if (response.ok) window.location.reload(); // Оновити сторінку після видалення
+                        else console.log('Error with delete task');
+                    } catch (error) {console.error('Помилка під час взаємодії з сервером', error)};
+                });
+            });
+        });
+    </script>
+</body>
+</html>

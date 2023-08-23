@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit-task Page</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #E5F1F7;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        #block {
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            width: 400px;
+        }
+
+        #form {
+            display: flex;
+            flex-direction: column;
+        }
+
+        #form input,
+        #form textarea {
+            margin-bottom: 10px;
+            padding: 10px;
+            border: 1px solid #DDDDDD;
+            border-radius: 4px;
+            font-size: 16px;
+            width: 100%;
+            box-sizing: border-box; /* To include padding and border in the width */
+        }
+
+        #form button {
+            background-color: #00A8C6;
+            border: none;
+            color: white;
+            padding: 10px;
+            font-size: 18px;
+            cursor: pointer;
+            border-radius: 4px;
+            transition: background-color 0.3s ease;
+            width: 100%;
+        }
+
+        #form button:hover {
+            background-color: #007D94;
+        }
+
+        #form nav {
+            display: inline;
+            margin: 0 auto; /* To center the "Edit" text */
+            font-size: 18px;
+        }
+    </style>
+</head>
+<body>
+    <div id="block">
+        <form action="/edit/<%= id %>" method="post" id="form">
+            <input type="text" name="title" placeholder="Title" value="<%= title %>">
+            <textarea type="text" name="text" placeholder="Text" style="width: 100%; margin-bottom: 10px;"><%= text %></textarea>
+            <button type="submit">>>> <nav> Edit </nav> <<<</button>
+            <p><%= field %></p>
+        </form>
+    </div>
+</body>
+</html>
