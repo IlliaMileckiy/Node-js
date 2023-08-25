@@ -4,7 +4,9 @@ const app = express();
 
 //Import
 const appRoutes = require('./routes/app-routes');
+const apiAppRoutes = require('./routes/api-app-routes');
 const mongoose = require('mongoose');
+const methodOverride = require('method-override');
 require("dotenv").config();
 
 //Ejs
@@ -33,9 +35,12 @@ const Run = () => {
 Run();
 
 //Middleware and routes
+app.use(methodOverride('_method'));
+
 app.use(express.urlencoded());
 
 app.use(appRoutes);
+app.use(apiAppRoutes);
 
 app.use((req, res) => {
     res.send('Error');
